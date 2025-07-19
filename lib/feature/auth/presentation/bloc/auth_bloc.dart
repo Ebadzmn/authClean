@@ -3,6 +3,7 @@ import 'package:auth_system/feature/auth/data/models/signInRequestModel.dart';
 import 'package:auth_system/feature/auth/domain/usecases/login_user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -13,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.loginUser, this.localDataSource) : super(AuthInitial()) {
     on<LoginRequestEvent>(_onLoginRequest);
     on<CheckAuthStatusEvent>(_onCheckAuthStatus);
+    on<LogoutRequest>(_onLogout);
   }
 
   Future<void> _onLoginRequest(
@@ -23,7 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         Signinrequestmodel(email: event.email, password: event.password));
 
     result.fold((Failure) => emit(AuthError(Failure.message)), (token) async {
-      await localDataSource.saveToken(token);
+      // await localDataSource.saveToken(token);
       emit(AuthSuccess(token));
     });
   }
@@ -36,5 +38,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else {
       emit(AuthInitial());
     }
+  }
+
+  Future<void> _onLogout(LogoutRequest event, Emitter<AuthState> emit) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('AUTH_TOKEN');
+    emit(AuthLoggedOut());
   }
 }
