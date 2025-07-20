@@ -1,5 +1,6 @@
 import 'package:auth_system/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:auth_system/feature/auth/presentation/screens/homepage.dart';
+import 'package:auth_system/feature/auth/presentation/screens/signUpPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,7 +28,8 @@ class Loginpage extends StatelessWidget {
             Future.microtask(() {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (_) => HomePage()),
+                MaterialPageRoute(
+                    builder: (_) => HomePage(user: state.data.user)),
               );
             });
           }
@@ -40,7 +42,13 @@ class Loginpage extends StatelessWidget {
                 TextField(
                   controller: passwordController,
                 ),
-                ElevatedButton(onPressed: _login, child: Text('Login'))
+                ElevatedButton(onPressed: _login, child: Text('Login')),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => Signuppage()));
+                    },
+                    child: Text('Sign UP'))
               ],
             ),
           );

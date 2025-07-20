@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => AuthBloc(loginUser, localDataSource)
+          create: (_) => AuthBloc(loginUser, localDataSource, repository)
             ..add(CheckAuthStatusEvent()), // ✅ Check if user is logged in
         ),
       ],

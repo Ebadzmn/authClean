@@ -14,11 +14,20 @@ final class AuthLoading extends AuthState {}
 class AuthLoggedOut extends AuthState {}
 
 final class AuthSuccess extends AuthState {
-  final String token;
+  final Loginresponsemodel data;
 
-  AuthSuccess(this.token);
+  AuthSuccess(this.data);
   @override
-  List<Object> get props => [token];
+  List<Object> get props => [data];
+}
+
+final class SignUpSuccess extends AuthState {
+  final SignupResponseModel data;
+
+  SignUpSuccess(this.data);
+
+  @override
+  List<Object> get props => [data];
 }
 
 final class AuthError extends AuthState {

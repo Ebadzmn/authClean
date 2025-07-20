@@ -13,7 +13,9 @@ class AuthGatePage extends StatelessWidget {
       if (state is AuthLoading) {
         return const Center(child: CircularProgressIndicator());
       } else if (state is AuthSuccess) {
-        return HomePage();
+        return HomePage(
+          user: state.data.user,
+        );
       } else {
         return Loginpage();
       }
